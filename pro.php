@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="sign in.css" />
+    <title>WOODY FURNITURE</title>
+  </head>
+  <body>
+    <?php
+// Connect to the database
+$conn = mysqli_connect("localhost", "username", "password", "database_name");
+
+// Check for form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Get form data
+  $name = mysqli_real_escape_string($conn, $_POST["name"]);
+  $email = mysqli_real_escape_string($conn, $_POST["email"]);
+  $password = mysqli_real_escape_string($conn, $_POST["password"]);
+
+  // Validate inputs (e.g. check that email is valid, password meets criteria, etc.)
+
+  // Hash the password
+  $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+  // Insert user data into database
+  $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$hashed_password')";
+  mysqli_query($conn, $sql);
+
+  // Redirect to confirmation page or login page
+  header("Location: confirmation.php");
+  exit();
+}
+?>
+    <div class="log">
+      <section class="input-content">
+        <h1>Welcome!</h1>
+        <h4>Sign in to Your account</h4>
+        <div class="input">
+          <!-- <h1>LogIn</h1> -->
+          <input type="text" placeholder="Type Your Name" />
+          <br />
+          <input type="email" placeholder="Type Your E-mail" />
+          <br />
+          <input type="password" placeholder="Type Your Password" />
+          <br />
+          <button>LOGIN</button>
+          <!-- <font-awesome-icon icon="fa-brands fa-google" /> -->
+          <!-- <i class="fa-brands fa-google"></i> -->
+          <a href="#" class="fa fa-facebook"></a>
+          <p><router-link to="/about">Forget Password</router-link></p>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
